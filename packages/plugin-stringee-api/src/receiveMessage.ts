@@ -13,6 +13,7 @@ import { debugInfo } from "@erxes/api-utils/src/debuggers";
 import { StringeeCallEvent } from "./stringee/types";
 import { removeCountryCodeFromPhoneNumber } from "./helpers";
 import { findUserInCache } from "./stringee/usersCache";
+import { generateAttachmentUrl } from "./commonUtils";
 
 export const receiveMessage = async (
   models: IModels,
@@ -110,7 +111,7 @@ export const receiveMessage = async (
           if (uploadedFile) {
             attachments = [{
               type: "audio",
-              url: `http://localhost:4000/read-file?key=${uploadedFile}`,
+              url: generateAttachmentUrl(subdomain, uploadedFile),
               name: `recording_${messageData.call_id}.mp3`,
               size: uploadedFile.size || 0,
               mimeType: "audio/mpeg",
