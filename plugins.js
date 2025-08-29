@@ -765,6 +765,18 @@ window.plugins = [
       'https://bg.bichilglobus.mn/js/plugins/plugin-emailtemplates-ui/remoteEntry.js'
   },
   {
+  name: "emr",
+  exposes: {
+    "./routes": "./src/routes.tsx",
+  },
+  routes: {
+    url: "http://localhost:3236/remoteEntry.js",
+    scope: "emr",
+    module: "./routes",
+  },
+  menus:[{"text":"EMR","url":"/emr","icon":"icon-star","location":"mainNavigation",  "scope": 'emr',}],
+},
+  {
     name: 'exm',
     exposes: { './routes': './src/routes.tsx' },
     routes: {

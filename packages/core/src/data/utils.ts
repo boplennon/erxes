@@ -397,6 +397,7 @@ export const checkFile = async (models: IModels, file, source?: string) => {
     "application/pdf",
     "image/gif",
     "audio/mp4",
+    "audio/mpeg",
     "audio/vnd.wave",
     "audio/wave",
   ];
@@ -409,7 +410,7 @@ export const checkFile = async (models: IModels, file, source?: string) => {
   console.log(UPLOAD_FILE_TYPES, "UPLOAD_FILE_TYPES", source, "mime:", mime);
   if (!(UPLOAD_FILE_TYPES && UPLOAD_FILE_TYPES.includes(mime))) {
     if (!defaultMimeTypes.includes(mime)) {
-      return "Invalid configured file type";
+      return "Invalid configured file type " + mime;
     }
   }
 

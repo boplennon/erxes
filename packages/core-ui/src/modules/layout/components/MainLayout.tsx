@@ -9,6 +9,7 @@ import asyncComponent from "modules/common/components/AsyncComponent";
 import dayjs from "dayjs";
 import { getVersion } from "@erxes/ui/src/utils/core";
 import { NavigateFunction, Location } from "react-router-dom";
+import IncomingCall from "./IncomingCall";
 
 const MainBar = asyncComponent(
   () =>
@@ -41,6 +42,8 @@ class MainLayout extends React.Component<IProps, State> {
       navCollapse: 2,
     };
   }
+
+
 
   componentDidMount() {
     const { location, navigate, currentUser, enabledServices } = this.props;
@@ -246,8 +249,8 @@ class MainLayout extends React.Component<IProps, State> {
   };
 
   render() {
-    const { children, isShownIndicator, location } = this.props;
-
+    const { children, isShownIndicator, location, currentUser } = this.props;
+    console.log("currentUser", currentUser);
     if (location.pathname.startsWith("/videoCall")) {
       return children;
     }
@@ -267,6 +270,9 @@ class MainLayout extends React.Component<IProps, State> {
 
             {children}
           </MainWrapper>
+          {currentUser && currentUser.email && (
+            <IncomingCall userEmail={currentUser._id} />
+          )}
           <DetectBrowser />
         </Layout>
       </>
