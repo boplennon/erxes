@@ -6,7 +6,8 @@ import { debugError, debugInfo } from '@erxes/api-utils/src/debuggers';
 import { getConfig } from '../server';
 import { extend } from 'lodash';
 
-const OAAPIUrl = 'https://openapi.zalo.me/v2.0/oa/';
+const OAAPIUrl = 'https://zalo.nhakhoaasahii.com/zalo/v2.0/oa/';
+const OAV3APIUrl = 'https://zalo.nhakhoaasahii.com/zalo/v3.0/oa/';
 const OAAuthAPIUrl = 'https://oauth.zaloapp.com/v4/oa/access_token';
 
 export let Zalo;
@@ -28,7 +29,7 @@ export const createAPI = (baseURL: string, options: Object = {}) => {
 
 export const getAPI = () => {
   if (!Zalo)
-    Zalo = createAPI('https://openapi.zalo.me/v2.0/oa/', {
+    Zalo = createAPI('https://zalo.nhakhoaasahii.com/zalo/v2.0/oa/', {
       headers: {
         'Content-Type': 'application/json',
         access_token: ZaloAccessToken,
@@ -196,7 +197,7 @@ export const zaloGet = async (
     .catch((e: any) => e);
 };
 
-export const zaloSend = async (
+export const zaloSendLegacy = async (
   path: string = '',
   data?: any,
   config?: ZaloRequestConfig,
@@ -207,6 +208,21 @@ export const zaloSend = async (
 
   return await axios
     .post(`${OAAPIUrl}${path}`, data, getRequestConfigs(config, access_token))
+    .then((res: any) => res.data)
+    .catch((e: any) => e);
+};
+
+export const zaloSend = async (
+  path: string = '',
+  data?: any,
+  config?: ZaloRequestConfig,
+) => {
+  const access_token =
+    config?.access_token ||
+    (await zaloGetAccessToken(config?.models, config?.oa_id));
+
+  return await axios
+    .post(`${OAV3APIUrl}${path}`, data, getRequestConfigs(config, access_token))
     .then((res: any) => res.data)
     .catch((e: any) => e);
 };

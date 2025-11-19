@@ -54,12 +54,13 @@ export const connectAccount = async (req, res) => {
     conf.secret_key,
   );
   debugError(`connect ${token}`);
+  console.log("token: ", token)
   const OAInfo = await zaloGet('getoa', {
     models,
     oa_id: config.oa_id,
     access_token: token?.access_token,
   });
-
+  console.log("OAInfo: ", OAInfo)
   await createOrUpdateAccount(models.Accounts, {
     oa_id: OAInfo?.data?.oa_id,
     name: OAInfo?.data?.name,

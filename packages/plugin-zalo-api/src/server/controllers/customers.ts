@@ -40,6 +40,7 @@ export const createOrUpdateCustomer = async (
       { models, oa_id },
     );
 
+    console.log("zaloUser: ", zaloUser)
     let {
       src,
       from_id,

@@ -8,7 +8,7 @@ import {
   createOrUpdateCustomer,
   isFollowedUser,
 } from '../controllers';
-import { zaloSend } from '../../zalo';
+import { zaloSend, zaloSendLegacy } from '../../zalo';
 import { generateAttachmentUrl } from '../../utils';
 import {
   RPResult,
@@ -74,7 +74,7 @@ export const conversationMessagesBroker = () => {
         );
 
         let recipient: { [key: string]: any } = {
-          message_id: conversationMessage?.mid,
+          user_id: senderId
         };
         let message: { [key: string]: any } = {
           text: strip(content),
@@ -115,7 +115,7 @@ export const conversationMessagesBroker = () => {
             .get(attachmentUrl, { responseType: 'stream' })
             .then((res) => res.data);
 
-          let uploadedFile = await zaloSend(
+          let uploadedFile = await zaloSendLegacy(
             'upload/image',
             { file },
             {
@@ -142,7 +142,7 @@ export const conversationMessagesBroker = () => {
         console.log('start messageSent:', message, recipient);
 
         const messageSent = await zaloSend(
-          'message',
+          'message/cs',
           {
             recipient,
             message,

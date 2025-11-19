@@ -319,11 +319,13 @@ const init = async (app) => {
             customerId: customer.erxesApiId,
           });
 
-          graphqlPubsub.publish('conversationClientMessageInserted', {
-            conversationClientMessageInserted: {
+          await sendInboxMessage({
+            subdomain,
+            action: "conversationClientMessageInserted",
+            data: {
               ...created.toObject(),
-              conversationId: conversation.erxesApiId,
-            },
+              conversationId: conversation.erxesApiId
+            }
           });
 
           graphqlPubsub.publish(
